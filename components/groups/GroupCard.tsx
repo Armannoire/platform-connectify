@@ -29,7 +29,6 @@ export default function GroupCard({ group, currentUserId, onDelete, onEdit }: Pr
           </div>
         </div>
 
-        {/* Menu — միայն owner-ին */}
         {isOwner && (
           <div className="relative">
             <button

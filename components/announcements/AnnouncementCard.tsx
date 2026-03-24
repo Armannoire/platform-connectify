@@ -44,7 +44,6 @@ export default function AnnouncementCard({
           </div>
         </div>
 
-        {/* Menu — միայն հեղինակին */}
         {isAuthor && (
           <div className="relative">
             <button

@@ -22,7 +22,6 @@ export default function AnnouncementsPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [editing, setEditing] = useState<AnnouncementWithAuthor | null>(null);
 
-  // TODO: replace with real session
   const currentUserId = 1;
 
   return (

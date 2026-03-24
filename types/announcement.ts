@@ -23,7 +23,7 @@ export type CreateAnnouncementData = {
   content: string;
 };
 
-// PATCH body — բոլոր դաշտերը optional
+// PATCH body 
 export type UpdateAnnouncementData = {
   title?: string;
   content?: string;

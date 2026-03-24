@@ -25,12 +25,12 @@ app.prepare().then(() => {
   io.on("connection", (socket) => {
     console.log(`✓ Connected: ${socket.id}`);
 
-    // Channel-ին join
+    // Channel join
     socket.on("join:channel", (channelId: number) => {
       socket.join(`channel:${channelId}`);
     });
 
-    // Channel-ից leave
+    // Channel leave
     socket.on("leave:channel", (channelId: number) => {
       socket.leave(`channel:${channelId}`);
     });
@@ -43,7 +43,7 @@ app.prepare().then(() => {
       io.to(`channel:${data.channelId}`).emit("message:channel", data.message);
     });
 
-    // DM room-ին join
+    // DM room join
     socket.on("join:dm", (roomId: string) => {
       socket.join(`dm:${roomId}`);
     });

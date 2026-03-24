@@ -23,7 +23,6 @@ export default function LoginForm({ onSubmit, loading, error, onClearError }: Fo
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
 
-      {/* Error — fixed height container, always reserves space */}
       <div className="min-h-[44px]">
         {error && (
           <div

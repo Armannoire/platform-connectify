@@ -8,7 +8,6 @@ import ChatWindow from "@/components/chat/ChatWindow";
 export default function ChatPage() {
   const { workspaceId } = useParams();
 
-  // TODO: replace with real session
   const currentUserId = 1;
 
   const {
