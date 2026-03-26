@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useUserStore } from "@/store/useUserStore";
 
 type User = {
   id: number;
@@ -53,6 +54,7 @@ export function useSettings() {
     try {
       const res = await axios.patch("/api/user/avatar", { avatar });
       setUser(res.data.data);
+      useUserStore.getState().updateAvatar(avatar);
       return { success: true };
     } catch (err: any) {
       return { success: false, error: err.response?.data?.error || "Failed to update avatar" };

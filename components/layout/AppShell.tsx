@@ -18,20 +18,16 @@ export default function AppShell({ children, workspaceId }: { children: ReactNod
       }
     };
 
-    // Սկզբնական check
     checkSession();
 
-    // bfcache — pageshow
     const handlePageShow = (e: PageTransitionEvent) => {
       if (e.persisted) checkSession();
     };
 
-    // Tab-ը active դառնալիս
     const handleVisibility = () => {
       if (document.visibilityState === "visible") checkSession();
     };
 
-    // Focus — window-ը active դառնալիս
     const handleFocus = () => checkSession();
 
     window.addEventListener("pageshow", handlePageShow);
@@ -49,7 +45,7 @@ export default function AppShell({ children, workspaceId }: { children: ReactNod
     <main className="flex min-h-screen bg-gray-100 text-gray-900">
       <Sidebar workspaceId={workspaceId} />
       <div className="flex-1">
-        <Navbar />
+        <Navbar workspaceId={workspaceId} />
         <div className="p-8">{children}</div>
       </div>
     </main>

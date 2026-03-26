@@ -45,7 +45,7 @@ export async function getStats(workspaceId: number) {
     [workspaceId]
   );
 
-  const [[members]]: any = await db.query(      
+  const [[members]]: any = await db.query(
     "SELECT COUNT(*) as count FROM workspace_members WHERE workspaceId = ?",
     [workspaceId]
   );
@@ -55,9 +55,32 @@ export async function getStats(workspaceId: number) {
     [workspaceId]
   );
 
+  const [[groups]]: any = await db.query(
+    "SELECT COUNT(*) as count FROM `groups` WHERE workspaceId = ?",
+    [workspaceId]
+  );
+
+  const [[files]]: any = await db.query(
+    "SELECT COUNT(*) as count FROM files WHERE workspaceId = ?",
+    [workspaceId]
+  );
+
+  const [recentAnnouncements]: any = await db.query(
+    `SELECT a.title, a.createdAt, u.name AS authorName
+     FROM announcements a
+     JOIN users u ON u.id = a.authorId
+     WHERE a.workspaceId = ?
+     ORDER BY a.createdAt DESC
+     LIMIT 3`,
+    [workspaceId]
+  );
+
   return {
-    projects: projects.count,
-    members: members.count,
-    announcements: announcements.count,          
+    projects:             projects.count,
+    members:              members.count,
+    announcements:        announcements.count,
+    groups:               groups.count,
+    files:                files.count,
+    recentAnnouncements,
   };
 }
