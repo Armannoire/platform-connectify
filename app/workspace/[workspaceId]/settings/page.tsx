@@ -4,17 +4,26 @@ import { useState } from "react";
 import { useSettings } from "@/hooks/useSettings";
 import ProfileForm from "@/components/settings/ProfileForm";
 import PasswordForm from "@/components/settings/PasswordForm";
-import { User, Lock } from "lucide-react";
+import AppearanceForm from "@/components/settings/AppearanceForm";
+import DangerZoneForm from "@/components/settings/DangerZoneForm";
+import { User, Lock, Palette, AlertTriangle } from "lucide-react";
 
 const TABS = [
-  { id: "profile",  label: "Profile",  icon: User },
-  { id: "password", label: "Security", icon: Lock },
+  { id: "profile",    label: "Profile",    icon: User          },
+  { id: "security",   label: "Security",   icon: Lock          },
+  { id: "appearance", label: "Appearance", icon: Palette       },
+  { id: "danger",     label: "Danger Zone",icon: AlertTriangle },
 ] as const;
 
 type Tab = typeof TABS[number]["id"];
 
 export default function SettingsPage() {
-  const { user, loading, error, updateProfile, updatePassword, updateAvatar } = useSettings();
+  const {
+    user, loading, error,
+    updateProfile, updatePassword, updateAvatar,
+    deleteAccount, leaveWorkspace,
+  } = useSettings();
+
   const [activeTab, setActiveTab] = useState<Tab>("profile");
 
   if (loading) {
@@ -40,23 +49,30 @@ export default function SettingsPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">Account Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Account Settings</h1>
         <p className="mt-1 text-sm text-gray-400">Manage your personal information and preferences</p>
       </div>
 
       {/* Tabs */}
-      <div className="mb-6 flex gap-1 rounded-2xl bg-gray-100 p-1">
+      <div className="mb-6 flex gap-1 rounded-2xl bg-gray-100/80 p-1">
         {TABS.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-medium transition-all ${
+            className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-medium transition-all ${
               activeTab === id
                 ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
+                : "text-gray-400 hover:text-gray-600"
+            } ${id === "danger" && activeTab === id ? "text-red-600" : ""}`}
           >
-            <Icon size={14} className={activeTab === id ? "text-violet-500" : "text-gray-400"} />
+            <Icon
+              size={13}
+              className={
+                activeTab === id
+                  ? id === "danger" ? "text-red-500" : "text-violet-500"
+                  : "text-gray-400"
+              }
+            />
             {label}
           </button>
         ))}
@@ -72,8 +88,20 @@ export default function SettingsPage() {
           onUpload={updateAvatar}
         />
       )}
-      {activeTab === "password" && (
+
+      {activeTab === "security" && (
         <PasswordForm onSubmit={updatePassword} />
+      )}
+
+      {activeTab === "appearance" && (
+        <AppearanceForm />
+      )}
+
+      {activeTab === "danger" && (
+        <DangerZoneForm
+          onDeleteAccount={deleteAccount}
+          onLeaveWorkspace={leaveWorkspace}
+        />
       )}
 
     </div>

@@ -25,8 +25,8 @@ export default function ArchivePage() {
     uploadFile, downloadFile, deleteFile,
   } = useArchive(Number(workspaceId));
 
-  const [showUpload, setShowUpload]               = useState(false);
-  const [previewFile, setPreviewFile]             = useState<ArchiveFile | null>(null);
+  const [showUpload, setShowUpload] = useState(false);
+  const [previewFile, setPreviewFile] = useState<ArchiveFile | null>(null);
 
   // TODO: replace with real session
   const currentUserId = 1;
@@ -36,30 +36,31 @@ export default function ArchivePage() {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Archive</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            {files.length > 0 ? `${files.length} files stored` : "Store and manage your files"}
+          <h1 className="text-2xl font-bold text-gray-900">Archive</h1>
+          <p className="mt-1 text-sm text-gray-400">
+            {files.length > 0 ? `${files.length} file${files.length > 1 ? "s" : ""} stored` : "Store and manage your files"}
           </p>
         </div>
         <button
           onClick={() => setShowUpload(true)}
-          className="flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
         >
-          <Upload size={15} />
+          <Upload size={14} />
           Upload File
         </button>
       </div>
 
       {/* Category Tabs */}
-      <div className="mb-6 flex gap-1 border-b border-gray-200">
+      <div className="mb-6 flex gap-1 border-b border-gray-100">
         {CATEGORIES.map(({ id, label }) => (
           <button
             key={id}
             onClick={() => setCategory(id)}
-            className={`px-4 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px ${
+            className={`-mb-px border-b-2 px-4 py-2.5 text-sm font-medium transition-all ${
               category === id
-                ? "border-gray-900 text-gray-900"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                ? "border-violet-500 text-violet-600"
+                : "border-transparent text-gray-400 hover:text-gray-600 hover:border-gray-200"
             }`}
           >
             {label}
@@ -78,7 +79,7 @@ export default function ArchivePage() {
       {loading ? (
         <div className="space-y-2">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-16 animate-pulse rounded-xl bg-white ring-1 ring-black/[0.04]" />
+            <div key={i} className="h-16 animate-pulse rounded-2xl bg-white ring-1 ring-black/[0.04]" />
           ))}
         </div>
       ) : (

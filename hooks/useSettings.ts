@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 
 type User = {
@@ -12,9 +13,10 @@ type User = {
 };
 
 export function useSettings() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser]       = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError]     = useState<string | null>(null);
+  const router                = useRouter();
 
   useEffect(() => {
     fetchProfile();
@@ -61,6 +63,26 @@ export function useSettings() {
     }
   }
 
+  async function deleteAccount() {
+    try {
+      await axios.delete("/api/user/account");
+      router.replace("/login");
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.response?.data?.error || "Failed to delete account" };
+    }
+  }
+
+  async function leaveWorkspace() {
+    try {
+      await axios.post("/api/user/leave-workspace");
+      router.replace("/login");
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.response?.data?.error || "Failed to leave workspace" };
+    }
+  }
+
   return {
     user,
     loading,
@@ -68,6 +90,8 @@ export function useSettings() {
     updateProfile,
     updatePassword,
     updateAvatar,
+    deleteAccount,
+    leaveWorkspace,
     refetch: fetchProfile,
   };
 }

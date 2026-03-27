@@ -1,17 +1,18 @@
 // components/layout/Navbar.tsx
 "use client";
 
-import { Search, Settings, LogOut, User } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { Settings, LogOut, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useUserStore } from "@/store/useUserStore";
+import GlobalSearch from "@/components/search/GlobalSearch";
 
 export default function Navbar({ workspaceId }: { workspaceId: string }) {
   const { user, setUser } = useUserStore();
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen]   = useState(false);
+  const router            = useRouter();
+  const ref               = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!user) {
@@ -49,13 +50,7 @@ export default function Navbar({ workspaceId }: { workspaceId: string }) {
     <header className="flex h-16 items-center justify-between border-b border-gray-100 bg-white px-8">
 
       {/* Search */}
-      <div className="relative w-96">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-        <input
-          placeholder="Search documents, team members..."
-          className="w-full rounded-full border border-gray-100 bg-gray-50 py-2 pl-9 pr-4 text-sm text-gray-900 outline-none transition-all focus:border-gray-200 focus:bg-white focus:ring-2 focus:ring-gray-900/5"
-        />
-      </div>
+      <GlobalSearch workspaceId={Number(workspaceId)} />
 
       {/* Avatar + Dropdown */}
       <div className="relative" ref={ref}>
